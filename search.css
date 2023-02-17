@@ -1,0 +1,16 @@
+.center {
+  margin: auto;
+  width: 50%;
+  border: 3px solid green;
+  padding: 10px;
+  
+}
+
+.search-bar{
+  margin-top:100px;
+}
+
+.nextto{
+  display: inline-block;
+  width: 30%;
+}
