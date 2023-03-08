@@ -1,6 +1,6 @@
 <?php
 
-include("senior_database_connect.php");
+$db = mysqli_connect('localhost', 'root', 'dnflwlq88','project');
 
 
 
@@ -26,16 +26,16 @@ if (isset($_POST['login']))  /*$_POST['JS Name="" "]*/
           $check = mysqli_fetch_assoc($result1);
           $hash_password = $check['user_pass'];
           $match = password_verify($log_password, $hash_password);
-  
+          
   
           if($match) {
             session_start();
             $_SESSION['log_user_name'] = $check['user_id'];
-           
-            header("location: index.html"); /* This line goes to dashboard.html; destination  */
-           
-
-          
+            
+  
+            header("location: 123.php"); /* This line goes to dashboard.html; destination  */
+            echo "Session user Name: ".$_SESSION['log_user_name']."<br/>";
+  
           } 
           else {
             header("location: sign_in.php?error=Password Does Not Match");
