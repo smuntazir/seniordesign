@@ -1,4 +1,59 @@
+<?php
 
+$db = mysqli_connect('testdata2-instance-1.crxvoye8t6bs.us-west-1.rds.amazonaws.com', 'admin', 'password','project-2');
+
+
+
+if (isset($_POST['login']))  /*$_POST['JS Name="" "]*/
+
+{
+    if ((isset($_POST['log_user_name'])) && (isset($_POST['log_password']))) {
+      $log_user_name = mysqli_real_escape_string($db, $_POST["log_user_name"]);
+      $log_password= mysqli_real_escape_string($db, $_POST["log_password"]);
+      $sql_injection = "/[`~!@#$%^&*|\\\'\";:\/?^=^+_()<>]/";
+      
+      if (empty($log_user_name)) {
+        header("location: sign_in.php?error= User name is empty");
+  
+      } elseif ((preg_match($sql_injection, $log_user_name))) {
+        header("location: sign_in.php?error=User Name Cannot use Special Characters");
+      } else {
+        $log_user_check = "SELECT * FROM `login_info` WHERE `user_id` = '$log_user_name'";
+        $result1 = mysqli_query($db, $log_user_check);
+  
+        if (mysqli_num_rows($result1) === 1) {
+  
+          $check = mysqli_fetch_assoc($result1);
+          $hash_password = $check['user_pass'];
+          $match = password_verify($log_password, $hash_password);
+          
+  
+          if($match) {
+            session_start();
+            $_SESSION['log_user_name'] = $check['user_id'];
+            
+  
+            header("location: 123.php"); /* This line goes to dashboard.html; destination  */
+            echo "Session user Name: ".$_SESSION['log_user_name']."<br/>";
+  
+          } 
+          else {
+            header("location: sign_in.php?error=Password Does Not Match");
+  
+          }
+          echo "0000000000000000000"; //error start here
+        } else{
+          header("location:sign_in.php?error=User is not Exist");
+        }
+  
+      }
+      
+  
+    }
+  }
+
+
+?>
 
 
 
